@@ -1,467 +1,305 @@
-# Native-Multi-Adapter-Wireless-Workflow
-Native-Multi-Adapter-Wireless-Workflow
 # Native Multi-Adapter Wireless Workflow
 
-> **Engineering Design Proposal (EDP-0001) & Reference Implementation**
->
-> A lightweight, interface-scoped workflow for Linux wireless auditing that preserves Internet connectivity while using dedicated wireless adapters for security assessments.
+<p align="center">
 
-![Status](https://img.shields.io/badge/status-active-success)
-![Platform](https://img.shields.io/badge/platform-Linux-blue)
-![Language](https://img.shields.io/badge/language-Bash-orange)
-![License](https://img.shields.io/badge/license-MIT-green)
+![Linux](https://img.shields.io/badge/Linux-Compatible-blue?style=for-the-badge&logo=linux)
+![Bash](https://img.shields.io/badge/Bash-5.x-green?style=for-the-badge&logo=gnubash)
+![Aircrack-ng](https://img.shields.io/badge/Aircrack--ng-Supported-red?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Active%20Development-success?style=for-the-badge)
 
----
-
-# Executive Summary
-
-The **Native Multi-Adapter Wireless Workflow** proposes a standardized operational model for wireless security assessments on Linux systems equipped with multiple wireless adapters.
-
-Instead of continuously switching a single wireless interface between **Managed Mode** and **Monitor Mode**, the workflow assigns a dedicated responsibility to each adapter:
-
-* One adapter maintains Internet connectivity.
-* One adapter performs wireless auditing tasks.
-
-This approach minimizes workflow interruptions, reduces administrative overhead, and improves operational consistency while remaining fully compatible with existing Linux wireless utilities.
-
-The repository provides both an **Engineering Design Proposal (EDP)** describing the workflow and a **reference implementation** demonstrating its practical application.
+</p>
 
 ---
 
-# The Problem
+# Native Linux Wireless Auditing Framework
 
-Wireless assessments on Linux typically require repeatedly switching an interface between Managed Mode and Monitor Mode.
+**Native Multi-Adapter Wireless Workflow (NMAWW)** is an open-source project that proposes a standardized methodology for performing wireless security assessments on Linux systems equipped with multiple Wi-Fi adapters.
 
-This often results in:
+Unlike traditional approaches that continuously switch a single adapter between **Managed Mode** and **Monitor Mode**, this framework assigns a dedicated operational role to each wireless interface, creating a more stable, reproducible, and professional workflow for wireless penetration testing.
 
-* Loss of Internet connectivity.
-* NetworkManager interruptions.
-* Manual recovery procedures.
-* Repetitive command sequences.
-* Reduced operational efficiency.
-* Inconsistent workflows across distributions.
+The project includes:
 
-Although existing tools provide excellent wireless capabilities, there is no standardized workflow focused on systems equipped with multiple wireless adapters.
+- A native Bash CLI
+- A reference implementation
+- Engineering documentation
+- Installation utilities
+- Administrator documentation
+- Architecture documentation
+- Engineering Design Proposals (EDPs)
+
+The long-term objective is not simply to distribute a script, but to establish an extensible framework for Linux wireless operations.
 
 ---
 
-# Proposed Solution
+# Why this project exists
 
-Native Multi-Adapter Wireless Workflow introduces a simple operational model based on interface specialization.
+Most Linux wireless auditing tutorials assume that a single Wi-Fi adapter will be repeatedly switched between different operating modes.
 
-Instead of changing the role of a single adapter, each wireless interface keeps a dedicated responsibility throughout the assessment.
+Although functional, this workflow introduces several operational disadvantages:
+
+- Internet connectivity is interrupted.
+- NetworkManager continuously reconnects interfaces.
+- Long captures become unstable.
+- Multiple tools compete for the same interface.
+- Switching modes repeatedly increases complexity.
+
+Professional environments often use multiple adapters simultaneously.
+
+This project formalizes that operational model and provides a repeatable workflow that minimizes interruptions while improving usability and consistency.
+
+---
+
+# Design Philosophy
+
+The project follows five engineering principles.
+
+## 1. Native Linux
+
+No graphical interface.
+
+No proprietary software.
+
+The framework relies entirely on native Linux utilities and standard networking components.
+
+Examples include:
+
+- iproute2
+- iw
+- ethtool
+- NetworkManager
+- Aircrack-ng Suite
+
+---
+
+## 2. One Adapter, One Responsibility
+
+Each wireless adapter performs a single role.
 
 Example:
 
-| Interface | Role                                 |
-| --------- | ------------------------------------ |
-| wlan0     | Wireless Auditing (Monitor Mode)     |
-| wlan1     | Internet Connectivity (Managed Mode) |
+| Interface | Role |
+|-----------|------|
+| wlan0 | Monitor Mode |
+| wlan1 | Internet Connectivity |
 
-This separation simplifies wireless operations while maintaining compatibility with existing Linux networking components.
-
----
-
-# Objectives
-
-* Preserve Internet connectivity during wireless assessments.
-* Reduce repetitive administrative tasks.
-* Standardize wireless auditing workflows.
-* Minimize interface state changes.
-* Improve workflow reproducibility.
-* Provide a clean reference implementation.
-* Remain fully compatible with existing Linux utilities.
+This separation significantly reduces operational conflicts.
 
 ---
 
-# Design Principles
+## 3. Minimal Dependencies
 
-The project follows the following engineering principles:
+The project intentionally avoids unnecessary frameworks.
 
-* One interface, one responsibility.
-* Preserve Internet connectivity whenever possible.
-* Use existing Linux wireless utilities.
-* Do not modify kernel components.
-* Do not modify drivers.
-* Do not modify firmware.
-* Keep the implementation lightweight.
-* Favor readability over complexity.
-* Build a maintainable reference implementation.
+Everything is implemented using Bash and native Linux tools.
 
----
+This allows the framework to remain:
 
-# Project Scope
-
-This repository **does** provide:
-
-* Engineering Design Proposal
-* Reference Bash implementation
-* Modular command-line interface
-* Documentation
-* Configuration management
-* Logging support
-* Validation routines
-* Wireless workflow examples
-
-This repository **does not**:
-
-* Replace Aircrack-ng
-* Replace NetworkManager
-* Modify Linux drivers
-* Modify the Linux kernel
-* Replace existing wireless frameworks
+- Lightweight
+- Portable
+- Transparent
+- Easy to audit
+- Easy to modify
 
 ---
 
-# Architecture
+## 4. Documentation First
 
-```
-                   Internet
-                       │
-               +-----------------+
-               | NetworkManager  |
-               +-----------------+
-                       │
-                  wlan1 (Managed)
-                       │
+Documentation is considered part of the software.
 
-===================================================
+Every feature should include:
 
-                  wlan0 (Monitor)
+- Administrator documentation
+- Architecture documentation
+- Engineering rationale
+- Operational examples
 
-                       │
-
-          Wireless Assessment Tools
-
-        Aircrack-ng
-        airodump-ng
-        aireplay-ng
-        iw
-        ip
-```
+The repository is intended to serve as both a software project and a learning resource.
 
 ---
 
-# Workflow
+## 5. Modularity
 
-```
-status
-   │
-monitor
-   │
-scan
-   │
-capture
-   │
-deauth
-   │
-station
-   │
-restore
-```
+Every command is designed to remain independent.
+
+Future releases will allow commands to become individual modules without requiring changes to the core architecture.
 
 ---
 
-# Features
+# Key Features
 
-* Multi-adapter workflow
-* Interface-scoped operations
-* Monitor Mode management
-* Managed Mode restoration
-* Internet preservation workflow
-* Wireless scanning
-* WPA/WPA2 handshake capture
-* Deauthentication support
-* Automatic validation
-* Centralized logging
-* Modular architecture
-* Configuration file support
+✔ Native Bash CLI
 
----
+✔ Multi-adapter wireless workflow
 
-# Command Reference
+✔ Monitor Mode management
 
-## status
+✔ Managed Mode restoration
 
-Display the current status of all detected wireless interfaces.
+✔ Wireless scanning
 
-```bash
-wireless status
-```
+✔ WPA/WPA2 handshake capture
 
----
+✔ Deauthentication support
 
-## monitor
+✔ Interface diagnostics
 
-Enable Monitor Mode on the auditing interface.
+✔ Modular architecture
 
-```bash
-wireless monitor
-```
+✔ Open-source reference implementation
 
----
+✔ Administrator Guide
 
-## station
+✔ Engineering Design Proposal
 
-Restore the auditing interface to Managed (Station) Mode.
+✔ Architecture documentation
 
-```bash
-wireless station
-```
+✔ Easy installation
 
----
-
-## restore
-
-Restart networking services and restore Internet connectivity.
-
-```bash
-wireless restore
-```
-
----
-
-## scan
-
-Scan nearby wireless networks.
-
-```bash
-wireless scan
-```
-
----
-
-## capture
-
-Capture wireless traffic and WPA/WPA2 handshakes.
-
-```bash
-wireless capture
-```
-
----
-
-## deauth
-
-Send IEEE 802.11 deauthentication frames.
-
-```bash
-wireless deauth
-```
-
----
-
-## help
-
-Display command usage.
-
-```bash
-wireless help
-```
-
----
-
-## version
-
-Display application version.
-
-```bash
-wireless version
-```
-
----
-
-# Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/<your-username>/Native-Multi-Adapter-Wireless-Workflow.git
-```
-
-Enter the project directory:
-
-```bash
-cd Native-Multi-Adapter-Wireless-Workflow
-```
-
-Grant execution permissions:
-
-```bash
-chmod +x reference-implementation/wireless
-```
-
-Run:
-
-```bash
-./reference-implementation/wireless
-```
-
----
-
-# Quick Start
-
-Display available interfaces:
-
-```bash
-wireless status
-```
-
-Enable Monitor Mode:
-
-```bash
-wireless monitor
-```
-
-Scan nearby networks:
-
-```bash
-wireless scan
-```
-
-Capture handshakes:
-
-```bash
-wireless capture
-```
-
-Restore networking:
-
-```bash
-wireless restore
-```
+✔ Linux-first design
 
 ---
 
 # Repository Structure
 
-```
+```text
 Native-Multi-Adapter-Wireless-Workflow/
-
+│
 ├── README.md
 ├── LICENSE
 ├── CHANGELOG.md
-├── INSTALL.md
-├── VERSION
-├── CONTRIBUTING.md
-├── SECURITY.md
-├── SUPPORT.md
-├── FAQ.md
 ├── ROADMAP.md
-├── CODE_OF_CONDUCT.md
-├── ACKNOWLEDGEMENTS.md
-│
-├── docs/
-│   ├── EDP-0001.md
-│   ├── ARCHITECTURE.md
-│   ├── COMMAND_SPECIFICATION.md
-│   ├── MODULE_SPECIFICATION.md
-│   ├── CONFIGURATION.md
-│   ├── LOGGING.md
-│   ├── TESTING.md
-│   ├── STYLE_GUIDE.md
-│   └── DEVELOPMENT_GUIDE.md
+├── VERSION
+├── install.sh
 │
 ├── reference-implementation/
-│   ├── wireless
-│   ├── config/
-│   ├── commands/
-│   ├── lib/
-│   └── logs/
+│   └── wireless
+│
+├── docs/
+│   ├── Administrator_Guide.md
+│   ├── Administrator_Guide.pdf
+│   ├── ARCHITECTURE.md
+│   ├── EDP-0001.md
+│   └── DESIGN_DECISIONS.md
 │
 ├── tests/
+│
+├── assets/
 │
 └── .github/
 ```
 
 ---
 
-# Compatibility
+# Requirements
 
-Designed for modern Linux distributions, including:
+The framework targets modern Linux distributions.
 
-* Kali Linux
-* Debian
-* Ubuntu
-* Linux Mint
-* Parrot OS
+## Operating System
 
-Dependencies:
-
-* Bash
-* iw
-* iproute2
-* NetworkManager
-* Aircrack-ng
+- Kali Linux
+- Ubuntu
+- Debian
+- Linux Mint
+- Parrot OS
+- Arch Linux (community supported)
 
 ---
 
-# Roadmap
+## Required Packages
 
-## Version 1.0
-
-* Engineering Design Proposal
-* Reference implementation
-* Documentation
-* CLI
-* Modular architecture
-
-## Version 1.1
-
-* Automatic adapter detection
-* Enhanced diagnostics
-* Extended logging
-
-## Version 2.0
-
-* Plugin architecture
-* Optional reporting
-* Additional workflow automation
+- bash
+- iproute2
+- iw
+- ethtool
+- NetworkManager
+- aircrack-ng
 
 ---
 
-# Contributing
+## Hardware
 
-Contributions are welcome.
+Recommended:
 
-Please read:
+- Two Wi-Fi adapters
 
-* CONTRIBUTING.md
-* CODE_OF_CONDUCT.md
+Minimum:
 
-before opening a Pull Request.
-
----
-
-# License
-
-This project is released under the MIT License.
-
-See the LICENSE file for details.
+- One monitor-mode compatible adapter
 
 ---
 
-# Acknowledgements
+## Permissions
 
-Special thanks to:
-
-* Linux Kernel Community
-* Kali Linux Team
-* Linux Wireless Project
-* Aircrack-ng Project
-* NetworkManager Developers
-* Open Source Security Community
+Most commands require root privileges because they manipulate wireless interfaces.
 
 ---
 
-# Author
+# Installation
 
-**Alfredo Sandoval**
+Clone the repository.
 
-Engineering Design Proposal (EDP-0001)
+```bash
+git clone https://github.com/YOUR_USERNAME/Native-Multi-Adapter-Wireless-Workflow.git
+```
 
+Enter the project directory.
+
+```bash
+cd Native-Multi-Adapter-Wireless-Workflow
+```
+
+Grant execution permissions.
+
+```bash
+chmod +x install.sh
+```
+
+Run the installer.
+
+```bash
+./install.sh
+```
+
+The installer will:
+
+- Verify required dependencies
+- Install the `wireless` command
+- Configure executable permissions
+- Validate the installation
+- Display post-installation instructions
+
+No manual modifications to `.bashrc` or `.zshrc` are required.
+
+---
+
+# Verify Installation
+
+```bash
+wireless help
+```
+
+Expected output:
+
+```text
 Native Multi-Adapter Wireless Workflow
 
-Reference Implementation
+Available Commands
 
-Version 1.0.0
+Usage:
+
+    wireless <command>
+
+    status      Show wireless interface status
+    monitor     Switch wlan0 to Monitor Mode
+    station     Restore wlan0 to Managed Mode
+    restore     Restart networking services
+    scan        Scan nearby wireless networks
+    capture     Capture WPA/WPA2 handshake
+    deauth      Send deauthentication frames
+    version     Display application version
+    help        Display this help
+
+```
+
+---
