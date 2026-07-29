@@ -37,49 +37,14 @@ done
 
 COMMAND="${1:-help}"
 
-COMMAND="${1:-help}"
+FUNCTION="cmd_${COMMAND}"
 
-case "${COMMAND}" in
-    help)
-        cmd_help
-        ;;
-
-    version)
-        cmd_version
-        ;;
-
-    status)
-        cmd_status
-        ;;
-
-    monitor)
-        cmd_monitor
-        ;;
-
-    station)
-        cmd_station
-        ;;
-
-    restore)
-        cmd_restore
-        ;;
-
-    scan)
-        cmd_scan
-        ;;
-
-    capture)
-        cmd_capture
-        ;;
-
-    deauth)
-        cmd_deauth
-        ;;
-
-    *)
-        echo "Unknown command: ${COMMAND}"
-        echo
-        cmd_help
-        exit 1
-        ;;
-esac
+if declare -F "${FUNCTION}" >/dev/null
+then
+    "${FUNCTION}" "${@:2}"
+else
+    echo "Unknown command: ${COMMAND}"
+    echo
+    cmd_help
+    exit 1
+fi
