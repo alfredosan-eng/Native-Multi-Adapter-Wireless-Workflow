@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+FRAMEWORK_HOME="$(cd "$SCRIPT_DIR/../framework" && pwd)"
+
+source "$FRAMEWORK_HOME/lib/config.sh"
+source "$FRAMEWORK_HOME/lib/colors.sh"
+source "$FRAMEWORK_HOME/lib/logger.sh"
+source "$FRAMEWORK_HOME/lib/common.sh"
+source "$FRAMEWORK_HOME/lib/interfaces.sh"
+source "$FRAMEWORK_HOME/lib/validation.sh"
+source "$FRAMEWORK_HOME/lib/privilege.sh"
+
+for module in "$FRAMEWORK_HOME"/commands/*.sh
+do
+    source "$module"
+done
+
+main() {
+
+    local command="${1:-help}"
+
+    shift || true
+
+    case "$command" in
+
+        status)
+            cmd_status "$@"
+            ;;
+
+        monitor)
+            require_root monitor "$@"
+            cmd_monitor "$@"
+            ;;
+
+        station)
+            require_root station "$@"
+            cmd_station "$@"
+            ;;
+
+        restore)
+            require_root restore "$@"
+            cmd_restore "$@"
+            ;;
+
+        scan)
+            cmd_scan "$@"
+            ;;
+
+        capture)
+            cmd_capture "$@"
+            ;;
+
+        deauth)
+            cmd_deauth "$@"
+            ;;
+
+        version)
+            cmd_version
+            ;;
+
+        help|-h|--help)
+            cmd_help
+            ;;
+
+        *)
+            log_error "Unknown command: $command"
+            echo
+            cmd_help
+            exit 1
+            ;;
+
+    esac
+
+}
+
+main "$@"
