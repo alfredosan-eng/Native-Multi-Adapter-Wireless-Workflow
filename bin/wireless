@@ -3,77 +3,83 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-FRAMEWORK_HOME="$(cd "$SCRIPT_DIR/../framework" && pwd)"
 
-source "$FRAMEWORK_HOME/lib/config.sh"
-source "$FRAMEWORK_HOME/lib/colors.sh"
-source "$FRAMEWORK_HOME/lib/logger.sh"
-source "$FRAMEWORK_HOME/lib/common.sh"
-source "$FRAMEWORK_HOME/lib/interfaces.sh"
-source "$FRAMEWORK_HOME/lib/validation.sh"
-source "$FRAMEWORK_HOME/lib/privilege.sh"
+if [[ -n "${NMAWW_HOME:-}" && -d "${NMAWW_HOME}/framework" ]]; then
+    FRAMEWORK_HOME="${NMAWW_HOME}/framework"
 
-for module in "$FRAMEWORK_HOME"/commands/*.sh
+elif [[ -d "/usr/local/share/nmaww/framework" ]]; then
+    FRAMEWORK_HOME="/usr/local/share/nmaww/framework"
+
+elif [[ -d "${SCRIPT_DIR}/../framework" ]]; then
+    FRAMEWORK_HOME="$(cd "${SCRIPT_DIR}/../framework" && pwd)"
+
+else
+    echo "ERROR: Framework not found."
+    exit 1
+fi
+
+for lib in \
+    config.sh \
+    colors.sh \
+    logger.sh \
+    common.sh \
+    interfaces.sh \
+    validation.sh \
+    privilege.sh
 do
-    source "$module"
+    source "${FRAMEWORK_HOME}/lib/${lib}"
 done
 
-main() {
+for module in "${FRAMEWORK_HOME}"/commands/*.sh
+do
+    source "${module}"
+done
 
-    local command="${1:-help}"
+COMMAND="${1:-help}"
 
-    shift || true
+COMMAND="${1:-help}"
 
-    case "$command" in
+case "${COMMAND}" in
+    help)
+        cmd_help
+        ;;
 
-        status)
-            cmd_status "$@"
-            ;;
+    version)
+        cmd_version
+        ;;
 
-        monitor)
-            require_root monitor "$@"
-            cmd_monitor "$@"
-            ;;
+    status)
+        cmd_status
+        ;;
 
-        station)
-            require_root station "$@"
-            cmd_station "$@"
-            ;;
+    monitor)
+        cmd_monitor
+        ;;
 
-        restore)
-            require_root restore "$@"
-            cmd_restore "$@"
-            ;;
+    station)
+        cmd_station
+        ;;
 
-        scan)
-            cmd_scan "$@"
-            ;;
+    restore)
+        cmd_restore
+        ;;
 
-        capture)
-            cmd_capture "$@"
-            ;;
+    scan)
+        cmd_scan
+        ;;
 
-        deauth)
-            cmd_deauth "$@"
-            ;;
+    capture)
+        cmd_capture
+        ;;
 
-        version)
-            cmd_version
-            ;;
+    deauth)
+        cmd_deauth
+        ;;
 
-        help|-h|--help)
-            cmd_help
-            ;;
-
-        *)
-            log_error "Unknown command: $command"
-            echo
-            cmd_help
-            exit 1
-            ;;
-
-    esac
-
-}
-
-main "$@"
+    *)
+        echo "Unknown command: ${COMMAND}"
+        echo
+        cmd_help
+        exit 1
+        ;;
+esac
