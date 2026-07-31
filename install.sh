@@ -30,6 +30,8 @@ SHARE_DIR="${INSTALL_PREFIX}/share/nmaww"
 
 FRAMEWORK_DIR="${SHARE_DIR}/framework"
 
+CORE_DIR="${SHARE_DIR}/core"
+
 LAUNCHER="wireless"
 
 ################################################################################
@@ -238,6 +240,8 @@ mkdir -p "${BIN_DIR}"
 
 mkdir -p "${FRAMEWORK_DIR}"
 
+mkdir -p "${CORE_DIR}"
+
 success "Directories created."
 
 }
@@ -251,6 +255,8 @@ copy_framework() {
 info "Installing framework..."
 
 cp -R framework/* "${FRAMEWORK_DIR}/"
+
+cp -R core/* "${CORE_DIR}/"
 
 success "Framework installed."
 
@@ -323,6 +329,8 @@ set_permissions() {
 
 info "Applying permissions..."
 
+chmod -R 755 "${CORE_DIR}"
+
 chmod -R 755 "${FRAMEWORK_DIR}"
 
 chmod 755 "${BIN_DIR}/${LAUNCHER}"
@@ -340,6 +348,11 @@ info "Verifying installation..."
 
 [[ -x "${BIN_DIR}/${LAUNCHER}" ]] || {
     error "Launcher installation failed."
+    exit 1
+}
+
+[[ -d "${CORE_DIR}" ]] || {
+    error "Core installation failed."
     exit 1
 }
 
@@ -367,6 +380,7 @@ echo "Project : ${PROJECT_NAME}"
 echo "Version : ${VERSION}"
 echo
 echo "Launcher : ${BIN_DIR}/${LAUNCHER}"
+echo "Core     : ${CORE_DIR}"
 echo "Framework: ${FRAMEWORK_DIR}"
 echo
 echo "Run:"
@@ -390,7 +404,6 @@ REQUIRED_ITEMS=(
 
 bin
 framework
-framework/lib
 framework/commands
 
 )

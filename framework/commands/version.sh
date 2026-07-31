@@ -4,5 +4,6 @@ cmd_version() {
 
     banner
 
+    print_version
 }
 

@@ -4,36 +4,28 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-if [[ -n "${NMAWW_HOME:-}" && -d "${NMAWW_HOME}/framework" ]]; then
-    FRAMEWORK_HOME="${NMAWW_HOME}/framework"
+if [[ -n "${NMAWW_HOME:-}" && -d "${NMAWW_HOME}/core" ]]; then
+    CORE_DIR="${NMAWW_HOME}/core"
+    COMMANDS_DIR="${NMAWW_HOME}/framework/commands"
 
-elif [[ -d "/usr/local/share/nmaww/framework" ]]; then
-    FRAMEWORK_HOME="/usr/local/share/nmaww/framework"
+elif [[ -d "/usr/local/share/nmaww/core" ]]; then
+    CORE_DIR="/usr/local/share/nmaww/core"
+    COMMANDS_DIR="/usr/local/share/nmaww/framework/commands"
 
-elif [[ -d "${SCRIPT_DIR}/../framework" ]]; then
-    FRAMEWORK_HOME="$(cd "${SCRIPT_DIR}/../framework" && pwd)"
+elif [[ -d "${SCRIPT_DIR}/../core" ]]; then
+    CORE_DIR="$(cd "${SCRIPT_DIR}/../core" && pwd)"
+    COMMANDS_DIR="$(cd "${SCRIPT_DIR}/../framework/commands" && pwd)"
 
 else
-    echo "ERROR: Framework not found."
+    echo "ERROR: NMAWW Core not found."
     exit 1
 fi
 
-for lib in \
-    config.sh \
-    colors.sh \
-    logger.sh \
-    common.sh \
-    interfaces.sh \
-    validation.sh \
-    privilege.sh
-do
-    source "${FRAMEWORK_HOME}/lib/${lib}"
-done
+source "${CORE_DIR}/bootstrap.sh"
 
-for module in "${FRAMEWORK_HOME}"/commands/*.sh
-do
-    source "${module}"
-done
+bootstrap_framework
+
+load_commands "${COMMANDS_DIR}"
 
 COMMAND="${1:-help}"
 
@@ -43,7 +35,7 @@ if declare -F "${FUNCTION}" >/dev/null
 then
     "${FUNCTION}" "${@:2}"
 else
-    echo "Unknown command: ${COMMAND}"
+    error "Unknown command: ${COMMAND}"
     echo
     cmd_help
     exit 1
