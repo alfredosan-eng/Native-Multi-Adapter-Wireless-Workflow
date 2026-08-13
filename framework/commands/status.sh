@@ -4,45 +4,79 @@ cmd_status() {
 
     validate_environment
 
+    local connected_ssid=""
+    local connected_bssid=""
+    local rx_rate=""
+    local tx_rate=""
+
     banner
 
     print_separator
 
-    printf "%-12s %-10s %-12s %-18s\n" \
+    printf "%-10s %-8s %-10s %-14s %-6s %-8s %-4s %-10s\n" \
         "Interface" \
         "State" \
         "Mode" \
-        "Driver"
+        "Driver" \
+        "PHY" \
+        "Band" \
+        "Ch" \
+        "Signal"
 
     print_separator
 
-    while read -r iface
+    while IFS='|' read -r \
+        iface \
+        driver \
+        phy \
+        mac \
+        state \
+        mode \
+        band \
+        channel \
+        signal \
+        ssid \
+        bssid \
+        rx \
+        tx
     do
 
-        [[ -z "$iface" ]] && continue
+        [[ -z "${iface}" ]] && continue
 
-        printf "%-12s %-10s %-12s %-18s\n" \
-            "$iface" \
-            "$(interface_state "$iface")" \
-            "$(interface_mode "$iface")" \
-            "$(interface_driver "$iface")"
+        printf "%-10s %-8s %-10s %-14s %-6s %-8s %-4s %-10s\n" \
+            "${iface}" \
+            "${state}" \
+            "${mode}" \
+            "${driver}" \
+            "${phy}" \
+            "${band:---}" \
+            "${channel:---}" \
+            "$(describe_signal "${signal}")"
 
-    done < <(list_wireless_interfaces)
+        if [[ -n "${ssid}" ]]; then
+            connected_ssid="${ssid}"
+            connected_bssid="${bssid}"
+            rx_rate="${rx}"
+            tx_rate="${tx}"
+        fi
+
+    done < <(inventory_hardware)
 
     print_separator
 
-    echo
+echo
 
-    echo "Detected Interfaces : $(interface_count)"
-    echo "Primary Interface   : $(primary_interface)"
+echo "Detected Interfaces : $(discover_adapters | wc -l)"
 
-    if [[ -n "$(secondary_interface)" ]]; then
-        echo "Secondary Interface : $(secondary_interface)"
-    fi
+echo "Preferred Interface : $(preferred_interface)"
 
-    if [[ -n "$(monitor_interface)" ]]; then
-        echo "Monitor Interface   : $(monitor_interface)"
-    fi
+echo "Internet Available  : $(internet_available && echo YES || echo NO)"
 
+echo "Gateway             : $(preferred_gateway)"
+
+echo
+
+echo "Wireless Roles"
+
+show_adapter_roles
 }
-

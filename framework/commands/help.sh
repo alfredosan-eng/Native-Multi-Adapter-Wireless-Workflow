@@ -16,13 +16,12 @@ Available Commands
     monitor     Enable Monitor Mode
     station     Restore Managed Mode
     restore     Restore networking
-    scan        Scan nearby networks
-    capture     Capture WPA/WPA2 handshakes
-    deauth      Send deauthentication frames
+    scan        Scan nearby networks [UNDER DEVELOPMENT]
+    capture     Capture WPA/WPA2 handshakes [UNDER DEVELOPMENT]
+    deauth      Deauthentication module [UNDER DEVELOPMENT]
     version     Show framework version
     help        Show this help
 
 END
 
 }
-

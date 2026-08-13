@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+export NMAWW_HOME="${PROJECT_ROOT}"
+
+exec bash --rcfile <(
+cat <<EOF
+source "${PROJECT_ROOT}/core/bootstrap.sh"
+echo
+echo "NMAWW Development Shell"
+echo
+EOF
+)

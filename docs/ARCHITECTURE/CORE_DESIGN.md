@@ -100,7 +100,6 @@ The current Core implementation consists of the following components:
 | **commands/loader.sh** | Dynamically loads command modules. |
 | **constants.sh** | Defines global constants and framework defaults. |
 | **config.sh** | Creates, loads, and manages framework configuration. |
-| **interfaces.sh** | Discovers and manages wireless interfaces. |
 | **validation.sh** | Performs framework and environment validation. |
 | **privilege.sh** | Verifies execution privileges. |
 | **logger.sh** | Provides centralized logging services. |
@@ -111,6 +110,55 @@ The current Core implementation consists of the following components:
 
 The modular organization allows new Core services to be introduced without modifying existing components, preserving long-term maintainability.
 
+---
+## Hardware Inventory Service
+
+The Hardware Inventory Service is responsible for discovering and maintaining a consistent view of the wireless hardware available to the framework.
+
+Rather than allowing individual command modules to query Linux networking components directly, the Hardware Inventory Service centralizes hardware discovery into reusable Core functions.
+
+Current responsibilities include:
+
+- Wireless adapter discovery.
+- Driver detection.
+- PHY identification.
+- MAC address retrieval.
+- Interface state detection.
+- Interface mode detection.
+- Frequency detection.
+- Signal detection.
+- SSID and BSSID detection.
+- Channel detection.
+- Wireless band detection.
+- RX/TX bitrate detection.
+- Hardware inventory generation.
+
+The service is implemented by `core/hardware.sh`.
+
+Higher-level services consume this information through the Core inventory functions instead of interacting directly with Linux system utilities.
+
+Current service hierarchy:
+
+Hardware Inventory Service
+
+    inventory_hardware()
+
+        ├── discover_adapters()
+        ├── get_adapter_driver()
+        ├── get_adapter_phy()
+        ├── get_adapter_mac()
+        ├── get_adapter_operstate()
+        ├── get_adapter_mode()
+        ├── get_adapter_frequency()
+        ├── get_adapter_signal()
+        ├── get_adapter_ssid()
+        ├── get_adapter_bssid()
+        ├── get_adapter_channel()
+        ├── get_adapter_band()
+        ├── get_adapter_rx_bitrate()
+        └── get_adapter_tx_bitrate()
+
+The Hardware Inventory Service provides the foundation for the State, Capability, Role, and Workflow layers.
 ---
 
 # 4. Bootstrap Process
@@ -129,7 +177,7 @@ The initialization sequence follows these steps:
 6. Load shared utilities.
 7. Load validation services.
 8. Load privilege management.
-9. Load interface management.
+9. Load hardware and wireless state services.
 10. Load the command loader.
 11. Validate the execution environment.
 12. Load the framework configuration.
@@ -150,16 +198,25 @@ The primary responsibilities of each service are summarized below:
 
 | Service | Responsibility |
 |----------|----------------|
-| Bootstrap | Framework initialization and service loading. |
-| Configuration | Persistent framework configuration management. |
+| Bootstrap | Framework initialization and Core service loading. |
+| Constants | Global framework constants and defaults. |
+| Configuration | Framework configuration management. |
+| Hardware | Wireless hardware discovery and inventory. |
+| Capabilities | Wireless adapter capability detection. |
+| State | Normalized runtime state representation. |
+| Roles | Wireless interface role determination. |
+| Network | NetworkManager and connectivity operations. |
+| Session | Runtime session state persistence. |
+| Transaction | Transaction lifecycle and rollback handling. |
+| Workflow | High-level workflow orchestration. |
 | Validation | Environment and dependency verification. |
-| Interfaces | Wireless interface discovery and management. |
 | Logger | Runtime logging and diagnostics. |
 | Privilege | Execution privilege validation. |
 | Utilities | Shared helper functions. |
 | Version | Framework identification and version information. |
 | Colors | Terminal output formatting. |
-| Common | Shared presentation utilities. |
+| Presentation | Framework output and presentation utilities. |
+| Common | Shared framework functionality. |
 | Command Loader | Dynamic discovery and loading of command modules. |
 
 This modular approach simplifies future development by allowing individual services to evolve independently while maintaining a stable public interface.
@@ -228,11 +285,34 @@ bootstrap.sh
 ├── utils.sh
 ├── validation.sh
 ├── privilege.sh
-├── interfaces.sh
-└── commands/loader.sh
-```
+│
+├── hardware.sh
+├── parsers.sh
+├── capabilities.sh
+├── state.sh
+├── roles.sh
+├── connectivity.sh
+├── presentation.sh
+├── session.sh
+├── network.sh
+├── transaction.sh
+├── workflow.sh
+│
+└── command loader
+        │
+        └── framework/commands/*
+The dependency model separates low-level hardware discovery from higher-level operational services.
+
+Hardware discovery provides the foundation for capability detection and runtime state.
+
+Role management consumes hardware and state information to determine suitable operational roles.
+
+Network, session, transaction, and workflow services provide the operational control layer used by command modules.
+
+Command modules remain intentionally lightweight and delegate infrastructure operations to the Core.
 
 This structure prevents circular dependencies and simplifies future maintenance by preserving a predictable initialization sequence.
+
 
 ---
 
@@ -244,16 +324,13 @@ Future versions of the framework may introduce additional Core services while pr
 
 Planned enhancements include:
 
-- Hardware capability detection.
-- Adapter role management.
+- Advanced hardware capability scoring.
+- Intelligent adapter selection.
 - Health monitoring services.
 - Recovery services.
-- Plugin management.
-- Event dispatching.
-- Structured logging.
-- Configuration profiles.
-- Performance metrics.
-- Telemetry support.
+- More advanced workflow orchestration.
+- Expanded transaction safety mechanisms.
+- Persistent operational state management.
 
 The modular architecture enables these capabilities to be incorporated incrementally while maintaining backward compatibility with existing command modules.
 

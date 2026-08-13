@@ -5,22 +5,28 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 if [[ -n "${NMAWW_HOME:-}" && -d "${NMAWW_HOME}/core" ]]; then
+
     CORE_DIR="${NMAWW_HOME}/core"
     COMMANDS_DIR="${NMAWW_HOME}/framework/commands"
 
-elif [[ -d "/usr/local/share/nmaww/core" ]]; then
-    CORE_DIR="/usr/local/share/nmaww/core"
-    COMMANDS_DIR="/usr/local/share/nmaww/framework/commands"
-
 elif [[ -d "${SCRIPT_DIR}/../core" ]]; then
+
     CORE_DIR="$(cd "${SCRIPT_DIR}/../core" && pwd)"
     COMMANDS_DIR="$(cd "${SCRIPT_DIR}/../framework/commands" && pwd)"
 
+elif [[ -d "/usr/local/share/nmaww/core" ]]; then
+
+    CORE_DIR="/usr/local/share/nmaww/core"
+    COMMANDS_DIR="/usr/local/share/nmaww/framework/commands"
+
 else
-    echo "ERROR: NMAWW Core not found."
+
+    printf 'ERROR: NMAWW Core not found.\n' >&2
     exit 1
+
 fi
 
+# shellcheck source=core/bootstrap.sh
 source "${CORE_DIR}/bootstrap.sh"
 
 bootstrap_framework

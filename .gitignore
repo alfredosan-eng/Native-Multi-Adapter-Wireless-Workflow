@@ -1,0 +1,23 @@
+# Runtime state
+runtime/*
+
+# Logs
+logs/*
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
+
+# Backup files
+*.bak
+
+# Local development
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db

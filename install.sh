@@ -20,7 +20,7 @@ set -euo pipefail
 PROJECT_NAME="Native Multi-Adapter Wireless Workflow"
 PROJECT_SHORT="NMAWW"
 
-VERSION="0.1.0"
+VERSION="0.1.0-alpha"
 
 INSTALL_PREFIX="/usr/local"
 

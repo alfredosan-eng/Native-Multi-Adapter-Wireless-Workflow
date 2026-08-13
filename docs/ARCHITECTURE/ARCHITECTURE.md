@@ -154,7 +154,6 @@ NMAWW/
 │   ├── common.sh
 │   ├── config.sh
 │   ├── constants.sh
-│   ├── interfaces.sh
 │   ├── logger.sh
 │   ├── privilege.sh
 │   ├── utils.sh
@@ -223,7 +222,6 @@ Current Core components include:
 | **commands/loader.sh** | Dynamically loads command modules. |
 | **config.sh** | Configuration management. |
 | **constants.sh** | Global constants and framework defaults. |
-| **interfaces.sh** | Wireless interface discovery and management. |
 | **logger.sh** | Logging and runtime diagnostics. |
 | **privilege.sh** | Privilege validation. |
 | **utils.sh** | Shared utility functions. |
@@ -341,8 +339,6 @@ Typical configuration parameters include:
 
 | Parameter | Purpose |
 |-----------|---------|
-| **PRIMARY_INTERFACE** | Preferred managed interface. |
-| **SECONDARY_INTERFACE** | Secondary wireless interface. |
 | **AUTO_DETECT** | Automatically discover wireless adapters. |
 | **LOG_LEVEL** | Configure framework logging verbosity. |
 

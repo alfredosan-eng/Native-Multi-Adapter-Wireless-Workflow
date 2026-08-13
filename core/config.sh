@@ -20,9 +20,6 @@ create_default_config() {
         cat > "${CONFIG_FILE}" << EOF
 # NMAWW Configuration File
 
-PRIMARY_INTERFACE=
-SECONDARY_INTERFACE=
-
 LOG_LEVEL=INFO
 
 AUTO_DETECT=true
@@ -43,9 +40,7 @@ load_configuration() {
 save_configuration() {
 
     cat > "${CONFIG_FILE}" << EOF
-PRIMARY_INTERFACE=${PRIMARY_INTERFACE:-}
 
-SECONDARY_INTERFACE=${SECONDARY_INTERFACE:-}
 
 LOG_LEVEL=${LOG_LEVEL:-INFO}
 

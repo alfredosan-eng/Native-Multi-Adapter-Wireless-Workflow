@@ -5,7 +5,8 @@
 # Global Constants
 #
 
-readonly NMAWW_HOME="/usr/local/share/nmaww"
+: "${NMAWW_HOME:=/usr/local/share/nmaww}"
+readonly NMAWW_HOME
 readonly NMAWW_CONFIG_DIR="${HOME}/.config/nmaww"
 readonly NMAWW_LOG_DIR="${HOME}/.local/share/nmaww/logs"
 readonly NMAWW_CACHE_DIR="${HOME}/.cache/nmaww"
