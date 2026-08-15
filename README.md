@@ -135,39 +135,50 @@ By remaining lightweight, transparent and entirely Bash-based, NMAWW embraces th
 
 # Architecture
 
-                           +----------------------+
-                           |      wireless        |
-                           |  CLI Entry Point     |
-                           +----------+-----------+
-                                      |
-                                      v
-                           +----------------------+
-                           |      Launcher        |
-                           | Command Dispatcher   |
-                           +----------+-----------+
-                                      |
-                                      v
-                    +--------------------------------------+
-                    |          Framework Core              |
-                    |--------------------------------------|
-                    | lib/common.sh                        |
-                    | lib/logging.sh                       |
-                    | lib/ui.sh                            |
-                    | lib/validation.sh                    |
-                    +----------------+---------------------+
-                                     |
-             +-----------------------+-----------------------+
-             |                       |                       |
-             v                       v                       v
-     +---------------+      +---------------+      +---------------+
-     |   Commands    |      |   Modules     |      | Future Plugins |
-     |---------------|      |---------------|      |---------------|
-     | monitor       |      | wireless      |      | Community      |
-     | managed       |      | adapters      |      | extensions     |
-     | capture       |      | workflow      |      |                |
-     | status        |      |               |      |                |
-     +---------------+      +---------------+      +---------------+
+NMAWW is organized around a layered Core Service Architecture.
+
+The architecture separates hardware discovery, capability detection, state management, role management, connectivity, network management, session handling, transaction management and workflow execution from the user-facing command layer.
+
+```text
+                           +--------------------------+
+                           |      wireless CLI        |
+                           |      bin/wireless        |
+                           +------------+-------------+
+                                        |
+                                        v
+                           +--------------------------+
+                           |     Command Loader       |
+                           | core/commands/loader.sh  |
+                           +------------+-------------+
+                                        |
+                                        v
+                    +------------------------------------------+
+                    |                 Core                     |
+                    |------------------------------------------|
+                    | Bootstrap                                |
+                    | Hardware Inventory                       |
+                    | Capability Detection                     |
+                    | State Management                         |
+                    | Role Management                          |
+                    | Connectivity                             |
+                    | Network Management                       |
+                    | Session Management                       |
+                    | Transaction Management                   |
+                    | Workflow Engine                          |
+                    | Presentation                             |
+                    +--------------------+---------------------+
+                                         |
+                                         v
+                    +------------------------------------------+
+                    |             Native Linux                 |
+                    |------------------------------------------|
+                    | ip | iw | nmcli | NetworkManager         |
+                    | Linux wireless interfaces and drivers    |
+                    +------------------------------------------+
+
+
 ---
+
 
 # Installation
 
@@ -236,88 +247,84 @@ wireless status
 Run the framework directly from the repository during development:
 
 ```bash
-./wireless help
+./bin/wireless help
 ```
 
 NMAWW automatically discovers available command modules, allowing the framework to grow without modifying the launcher.
 
 # Repository Structure
 
+The project follows a modular architecture designed to separate the framework Core from user-facing commands.
+
 ```text
-NMAWW/
-├── assets/
-│   ├── icons/
-│   ├── screenshots/
-│   └── logo/
+Native-Multi-Adapter-Wireless-Workflow/
 │
-├── docs/
-│   ├── ARCHITECTURE.md
-│   ├── PROJECT_ORIGIN.md
-│   └── DESIGN_SYSTEM.md
+├── bin/
+│   └── wireless
+│
+├── core/
+│   ├── bootstrap.sh
+│   ├── capabilities.sh
+│   ├── colors.sh
+│   ├── common.sh
+│   ├── config.sh
+│   ├── connectivity.sh
+│   ├── constants.sh
+│   ├── hardware.sh
+│   ├── logger.sh
+│   ├── network.sh
+│   ├── parsers.sh
+│   ├── presentation.sh
+│   ├── privilege.sh
+│   ├── roles.sh
+│   ├── session.sh
+│   ├── state.sh
+│   ├── transaction.sh
+│   ├── utils.sh
+│   ├── validation.sh
+│   ├── version.sh
+│   ├── workflow.sh
+│   └── commands/
+│       └── loader.sh
 │
 ├── framework/
-│   ├── commands/
-│   ├── lib/
-│   └── modules/
+│   └── commands/
+│       ├── capture.sh
+│       ├── deauth.sh
+│       ├── help.sh
+│       ├── monitor.sh
+│       ├── restore.sh
+│       ├── scan.sh
+│       ├── station.sh
+│       ├── status.sh
+│       └── version.sh
 │
-├── tests/
+├── config/
+├── docs/
+│   ├── ARCHITECTURE/
+│   └── TEST_REPORTS/
+│
+├── runtime/
+├── scripts/
+│   └── dev-shell
+│
 ├── install.sh
-├── uninstall.sh
-├── wireless
-├── README.md
+├── VERSION
 ├── CHANGELOG.md
+├── ROADMAP.md
 ├── LICENSE
-└── VERSION
-```
+└── README.md
 
-### Directory Overview
-
-| Directory | Purpose |
-|-----------|---------|
-| assets | Images, logos, screenshots and visual resources. |
-| docs | Technical documentation and project specifications. |
-| framework | Core framework, libraries and command modules. |
-| tests | Validation and future automated tests. |
-| wireless | Framework launcher and command dispatcher. |
 
 # Dynamic Command System
 
-NMAWW uses a dynamic command discovery mechanism instead of a hardcoded command dispatcher.
+NMAWW uses a dynamic command loading mechanism instead of a hardcoded command dispatcher.
 
-Every command is implemented as an independent Bash module located under:
+User-facing command modules are located under:
 
 ```text
 framework/commands/
 ```
-
-Each module exports a function following the convention:
-
-```bash
-cmd_<command_name>()
-```
-
-For example:
-
-```text
-framework/commands/bluetooth.sh
-```
-
-```bash
-cmd_bluetooth() {
-    ...
-}
-```
-
-Once the module is loaded by the framework, the command immediately becomes available:
-
-```bash
-wireless bluetooth
-```
-
-No modifications to the launcher are required.
-
-This architecture keeps the framework modular, maintainable and easy to extend as new functionality is introduced.
-
 # Development
 
 NMAWW follows a modular development philosophy that prioritizes simplicity, maintainability and native Linux compatibility.
