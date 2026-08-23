@@ -12,8 +12,13 @@ run_workflow() {
     local execute="${3}"
     local verify="${4}"
     local success="${5}"
+    local transaction_interface="${6:-}"
 
-    transaction_begin
+    if [[ -n "${transaction_interface}" ]]; then
+
+        transaction_begin "${transaction_interface}" || return "${EXIT_FAILURE}"
+
+    fi
 
     if ! "${preflight}"; then
         workflow_fail "${workflow_name}" "Preflight failed."

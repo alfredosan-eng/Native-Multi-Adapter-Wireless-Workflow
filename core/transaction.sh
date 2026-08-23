@@ -2,9 +2,13 @@
 
 transaction_begin() {
 
+    local interface="${1:-}"
+
+    [[ -n "${interface}" ]] || return 1
+
     write_log "Transaction started."
 
-    network_save_session
+    network_save_session "${interface}"
 
 }
 

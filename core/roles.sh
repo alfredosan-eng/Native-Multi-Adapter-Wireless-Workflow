@@ -10,15 +10,33 @@ monitor_candidate() {
 
     local interface
 
+    if [[ -n "${NMAWW_MONITOR_INTERFACE:-}" ]]; then
+
+        for interface in $(discover_adapters)
+        do
+
+            [[ "${interface}" != "${NMAWW_MONITOR_INTERFACE}" ]] && continue
+
+            echo "${interface}"
+            return
+
+        done
+
+        return 1
+
+    fi
+
     for interface in $(discover_adapters)
     do
 
-        [[ "$(state_get "${interface}" MONITOR)" != "YES" ]] && continue
+        [[ "$(state_get "${interface}" SUPPORTS_MONITOR)" != "YES" ]] && continue
 
         echo "${interface}"
-        return
+        return 0
 
     done
+
+    return 1
 
 }
 
@@ -32,9 +50,11 @@ active_monitor_interface() {
         [[ "$(get_adapter_mode "${interface}")" != "MONITOR" ]] && continue
 
         echo "${interface}"
-        return
+        return 0
 
     done
+
+    return 1
 
 }
 
@@ -50,7 +70,7 @@ internet_candidate() {
 
         [[ "${interface}" == "${monitor}" ]] && continue
 
-        [[ "$(state_get "${interface}" MANAGED)" != "YES" ]] && continue
+        [[ "$(state_get "${interface}" SUPPORTS_MANAGED)" != "YES" ]] && continue
 
         echo "${interface}"
         return

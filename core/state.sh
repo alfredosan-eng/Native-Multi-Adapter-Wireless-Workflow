@@ -26,9 +26,9 @@ framework_state() {
 
         echo "METRIC=$(interface_metric "${interface}")"
 
-        echo "MONITOR=$(adapter_supports_monitor "${interface}" && echo YES || echo NO)"
+        echo "SUPPORTS_MONITOR=$(adapter_supports_monitor "${interface}" && echo YES || echo NO)"
 
-        echo "MANAGED=$(adapter_supports_managed "${interface}" && echo YES || echo NO)"
+        echo "SUPPORTS_MANAGED=$(adapter_supports_managed "${interface}" && echo YES || echo NO)"
 
         echo
 

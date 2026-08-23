@@ -9,7 +9,11 @@ NETWORK_TIMEOUT=10
 
 network_save_session() {
 
-    save_session
+    local interface="${1:-}"
+
+    [[ -n "${interface}" ]] || return 1
+
+    save_session "${interface}"
 
 }
 

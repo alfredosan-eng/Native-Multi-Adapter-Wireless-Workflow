@@ -8,12 +8,12 @@ cat << END
 
 Usage:
 
-    wireless <command>
+    wireless <command> [arguments]
 
 Available Commands
 
     status      Show wireless interface status
-    monitor     Enable Monitor Mode
+    monitor [interface]     Enable Monitor Mode
     station     Restore Managed Mode
     restore     Restore networking
     scan        Scan nearby networks [UNDER DEVELOPMENT]

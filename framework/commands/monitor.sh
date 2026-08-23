@@ -60,13 +60,38 @@ verify_monitor_transaction() {
 
 cmd_monitor() {
 
+    local interface
+    local status
+
     require_root
+
+    if (( $# > 1 )); then
+        log_error "Usage: wireless monitor [interface]"
+        return 1
+    fi
+
+    NMAWW_MONITOR_INTERFACE="${1:-}"
+
+    interface="$(monitor_candidate)"
+
+    if [[ -z "${interface}" ]]; then
+        unset NMAWW_MONITOR_INTERFACE
+        log_error "No monitor-capable interface available."
+        return 1
+    fi
 
     run_workflow \
         "Monitor Mode" \
         monitor_preflight \
         execute_monitor_mode \
         verify_monitor_transaction \
-        show_monitor_success
+        show_monitor_success \
+        "${interface}"
+
+    status=$?
+
+    unset NMAWW_MONITOR_INTERFACE
+
+    return "${status}"
 
 }

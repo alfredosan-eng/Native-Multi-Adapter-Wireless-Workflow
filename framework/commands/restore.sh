@@ -29,7 +29,9 @@ execute_restore() {
 
     local interface
 
-    interface="$(active_monitor_interface)"
+    load_session || return 1
+
+    interface="${WIFI_INTERFACE:-}"
 
     [[ -n "${interface}" ]] || return 1
 
@@ -42,14 +44,56 @@ execute_restore() {
 
     ip link set "${interface}" up || return 1
 
-    network_set_managed "${interface}" || return 1
+    network_restore_management || return 1
+
+    if [[ -n "${WIFI_PROFILE:-}" ]]; then
+        nmcli connection up "${WIFI_PROFILE}" ifname "${interface}" || return 1
+    fi
 
 }
 
 verify_restore() {
 
+    local active_profile
+
+    load_session || return 1
+
+    [[ -n "${WIFI_INTERFACE:-}" ]] || return 1
+
     if [[ -n "$(active_monitor_interface)" ]]; then
         return 1
+    fi
+
+    if [[ "$(get_adapter_mode "${WIFI_INTERFACE}")" != "${WIFI_MODE}" ]]; then
+        return 1
+    fi
+
+    case "${WIFI_NM_MANAGED}" in
+
+        yes)
+            network_is_managed "${WIFI_INTERFACE}" || return 1
+            ;;
+
+        no)
+            network_is_unmanaged "${WIFI_INTERFACE}" || return 1
+            ;;
+
+        *)
+            return 1
+            ;;
+
+    esac
+
+    if [[ -n "${WIFI_PROFILE:-}" ]]; then
+
+        active_profile="$(
+            nmcli -t -f NAME,DEVICE connection show --active \
+                | awk -F: -v iface="${WIFI_INTERFACE}" \
+                    '$2==iface {print $1; exit}'
+        )"
+
+        [[ "${active_profile}" == "${WIFI_PROFILE}" ]] || return 1
+
     fi
 
     if ! internet_available; then

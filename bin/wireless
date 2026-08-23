@@ -11,13 +11,19 @@ if [[ -n "${NMAWW_HOME:-}" && -d "${NMAWW_HOME}/core" ]]; then
 
 elif [[ -d "${SCRIPT_DIR}/../core" ]]; then
 
-    CORE_DIR="$(cd "${SCRIPT_DIR}/../core" && pwd)"
-    COMMANDS_DIR="$(cd "${SCRIPT_DIR}/../framework/commands" && pwd)"
+    NMAWW_HOME="$(cd "${SCRIPT_DIR}/.." && pwd)"
+    export NMAWW_HOME
+
+    CORE_DIR="${NMAWW_HOME}/core"
+    COMMANDS_DIR="${NMAWW_HOME}/framework/commands"
 
 elif [[ -d "/usr/local/share/nmaww/core" ]]; then
 
-    CORE_DIR="/usr/local/share/nmaww/core"
-    COMMANDS_DIR="/usr/local/share/nmaww/framework/commands"
+    NMAWW_HOME="/usr/local/share/nmaww"
+    export NMAWW_HOME
+
+    CORE_DIR="${NMAWW_HOME}/core"
+    COMMANDS_DIR="${NMAWW_HOME}/framework/commands"
 
 else
 

@@ -4,19 +4,12 @@ SESSION_FILE="${NMAWW_HOME:-$(pwd)}/runtime/session.env"
 
 save_session() {
 
-    local interface
+    local interface="${1:-}"
     local mode
     local profile
     local managed
 
-    interface="$(monitor_candidate)"
-
-    if [[ -z "${interface}" ]]; then
-
-        interface="$(nmcli -t -f DEVICE,TYPE,STATE device \
-            | awk -F: '$2=="wifi" && $3=="connected" {print $1; exit}')"
-
-    fi
+    [[ -n "${interface}" ]] || return 1
 
     mode=""
 
@@ -45,12 +38,12 @@ save_session() {
 
     mkdir -p "$(dirname "${SESSION_FILE}")"
 
-    cat > "${SESSION_FILE}" <<EOF
-WIFI_INTERFACE=${interface}
-WIFI_MODE=${mode}
-WIFI_PROFILE=${profile}
-WIFI_NM_MANAGED=${managed}
-EOF
+    {
+        printf 'WIFI_INTERFACE=%q\n' "${interface}"
+        printf 'WIFI_MODE=%q\n' "${mode}"
+        printf 'WIFI_PROFILE=%q\n' "${profile}"
+        printf 'WIFI_NM_MANAGED=%q\n' "${managed}"
+    } > "${SESSION_FILE}"
 
 }
 
