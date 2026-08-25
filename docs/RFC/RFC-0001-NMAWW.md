@@ -18,7 +18,7 @@
 
 This Request for Comments (RFC) defines the Native Multi-Adapter Wireless Workflow (NMAWW), an orchestration framework that enables Linux systems to operate multiple wireless adapters simultaneously while preserving native networking capabilities.
 
-Rather than replacing existing Linux networking components, NMAWW coordinates wireless interfaces with distinct operational roles, allowing packet capture, wireless auditing, reconnaissance, internet connectivity, and administrative tasks to coexist within a single workflow.
+Rather than replacing existing Linux networking components, NMAWW coordinates wireless interfaces with distinct operational roles, allowing packet capture, wireless auditing, internet connectivity, and administrative tasks to coexist within a single workflow.
 
 The objective is to standardize an operational model for multi-adapter wireless environments using native Linux capabilities.
 
@@ -35,8 +35,7 @@ The objective is to standardize an operational model for multi-adapter wireless 
 7. Compatibility
 8. Implementation
 9. Limitations
-10. Future Work
-11. References
+10. References
 
 ---
 
@@ -45,7 +44,6 @@ The objective is to standardize an operational model for multi-adapter wireless 
 Modern wireless security assessments frequently require several concurrent activities:
 
 - Maintaining stable Internet connectivity
-- Passive wireless reconnaissance
 - Packet capture
 - Wireless auditing
 - Network administration
@@ -85,7 +83,7 @@ The operator usually performs tasks in the following order:
 
 1. Disconnect the wireless interface from the network.
 2. Enable monitor mode.
-3. Perform packet capture or wireless reconnaissance.
+3. Perform packet capture.
 4. Disable monitor mode.
 5. Reconnect to the wireless network.
 6. Resume Internet-dependent activities.
@@ -126,9 +124,8 @@ Example role assignment:
 | Interface | Mode | Primary Role |
 |-----------|------|--------------|
 | wlan0 | Managed | Internet Connectivity |
-| wlan1 | Monitor | Passive Reconnaissance |
-| wlan2 | Monitor | Packet Capture |
-| wlan3 | Managed | Administrative Operations |
+| wlan1 | Monitor | Packet Capture |
+| wlan2 | Managed | Administrative Operations |
 
 The orchestration layer is responsible for:
 
@@ -230,26 +227,7 @@ Hardware that does not support monitor mode, packet injection, or simultaneous m
 
 ---
 
-# 10. Future Work
-
-The long-term objective of NMAWW is to establish a standardized operational model for native multi-adapter wireless environments on Linux.
-
-Future development will focus on:
-
-- Expanding automated hardware compatibility detection.
-- Improving role assignment intelligence.
-- Strengthening health monitoring and diagnostics.
-- Increasing automated testing coverage.
-- Supporting additional Linux networking environments.
-- Enhancing configuration management.
-- Simplifying deployment and packaging.
-- Encouraging community contributions and external integrations.
-
-The architecture has been intentionally designed to allow incremental improvements while preserving backward compatibility with the core orchestration model.
-
----
-
-# 11. References
+# 10. References
 
 The concepts described in this RFC are based on existing Linux networking capabilities and established open-source technologies, including:
 

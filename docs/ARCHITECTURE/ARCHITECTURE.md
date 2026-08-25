@@ -36,8 +36,7 @@ This document describes the architectural principles, execution flow, repository
 8. Configuration System
 9. Logging System
 10. Validation Layer
-11. Future Evolution
-12. References
+11. References
 
 ---
 
@@ -133,7 +132,7 @@ NMAWW is organized into multiple logical layers, each responsible for a specific
 
 The layered architecture separates user-facing functionality from infrastructure services and native Linux networking components.
 
-Each layer has a single responsibility and communicates through clearly defined interfaces, improving maintainability and simplifying future development.
+Each layer has a single responsibility and communicates through clearly defined interfaces, improving maintainability and simplifying implementation and maintenance.
 
 ---
 
@@ -403,36 +402,7 @@ By separating validation from operational logic, command modules remain focused 
 
 ---
 
-# 11. Future Evolution
-
-The architecture of NMAWW has been intentionally designed to support long-term evolution without requiring disruptive structural changes.
-
-Future development will focus on expanding framework capabilities while preserving the architectural principles established in this document.
-
-Planned areas of evolution include:
-
-- Automatic wireless adapter discovery.
-- Hardware capability detection.
-- Intelligent role assignment.
-- Wireless workflow orchestration.
-- Configuration profiles.
-- Advanced health monitoring.
-- Automated recovery mechanisms.
-- Plugin support.
-- Extended reporting capabilities.
-- Comprehensive automated testing.
-- Cross-distribution validation.
-- Community-contributed extensions.
-
-The layered architecture adopted by NMAWW allows new functionality to be incorporated into the framework without affecting existing command modules or the Core infrastructure.
-
-This approach minimizes technical debt while encouraging incremental improvements and long-term maintainability.
-
-The architectural roadmap anticipates the gradual transition from a command-oriented framework toward a native wireless orchestration platform capable of coordinating increasingly complex multi-adapter environments.
-
----
-
-# 12. References
+# 11. References
 
 The NMAWW architecture is built upon existing Linux networking technologies and established open-source projects that provide the foundation for modern wireless networking.
 

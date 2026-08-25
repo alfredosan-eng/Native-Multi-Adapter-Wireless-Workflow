@@ -176,7 +176,6 @@ The primary validation categories are:
 - Monitor Mode Validation
 - Concurrent Multi-Adapter Operation
 - Internet Connectivity Preservation
-- Wireless Reconnaissance
 - Packet Capture
 - Network Scanning
 - Traffic Analysis

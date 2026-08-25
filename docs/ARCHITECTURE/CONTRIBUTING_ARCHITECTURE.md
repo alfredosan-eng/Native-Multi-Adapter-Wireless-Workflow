@@ -14,11 +14,11 @@
 
 # Executive Summary
 
-The long-term success of NMAWW depends not only on code quality but also on maintaining a consistent architectural vision.
+The quality of NMAWW depends not only on code quality but also on maintaining a consistent architectural design.
 
 This document establishes architectural contribution guidelines for developers who wish to improve or extend the framework.
 
-The objective is to ensure that future contributions preserve the project's engineering principles while encouraging community participation.
+The objective is to ensure that architectural contributions preserve the project's engineering principles while encouraging community participation.
 
 ---
 
@@ -28,8 +28,7 @@ The objective is to ensure that future contributions preserve the project's engi
 2. Architectural Philosophy
 3. Contribution Principles
 4. Reviewing Architectural Changes
-5. Future Architecture Governance
-6. References
+5. References
 
 ---
 
@@ -37,9 +36,9 @@ The objective is to ensure that future contributions preserve the project's engi
 
 This document defines how architectural contributions should be proposed, reviewed, and incorporated into NMAWW.
 
-Unlike source code contributions, architectural changes affect the long-term evolution of the framework and therefore require additional engineering review.
+Unlike source code contributions, architectural changes can affect the framework as a whole and therefore require additional engineering review.
 
-The goal is to preserve consistency while allowing the architecture to evolve in a controlled and well-documented manner.
+The goal is to preserve consistency through a controlled and well-documented architectural review process.
 
 ---
 
@@ -95,29 +94,12 @@ Reviews should evaluate:
 - Documentation updates.
 - Testing requirements.
 
-Significant architectural decisions should be documented to preserve the project's engineering history and facilitate future maintenance.
+Significant architectural decisions should be documented to preserve the project's engineering history and support ongoing maintenance.
 
 ---
 
-# 5. Future Architecture Governance
-
-As the project evolves, architectural governance should remain transparent, collaborative, and technically driven.
-
-Future governance may include:
-
-- Formal architectural reviews.
-- Architecture Decision Records (ADR).
-- Community design discussions.
-- Release planning.
-- Periodic architectural audits.
-- Technical review workflows.
-
-These practices help ensure that the framework continues to evolve in a controlled and sustainable manner while remaining aligned with its original engineering principles.
-
----
-
-# 6. References
+# 5. References
 
 The architectural contribution process adopted by NMAWW is inspired by established open-source engineering practices emphasizing documentation, peer review, modular architecture, and incremental development.
 
-By documenting architectural expectations and contribution guidelines, the project seeks to preserve consistency while encouraging high-quality community participation throughout its long-term evolution.
+By documenting architectural expectations and contribution guidelines, the project seeks to preserve consistency while encouraging high-quality community participation.

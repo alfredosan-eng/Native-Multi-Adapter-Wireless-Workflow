@@ -41,7 +41,7 @@ NMAWW is designed to complement the Linux networking ecosystem while remaining f
 
 Modern Linux distributions provide an excellent wireless networking stack, supporting a broad range of hardware, drivers, and networking utilities.
 
-Professionals working in cybersecurity, network engineering, wireless research, and penetration testing frequently rely on multiple wireless adapters to perform concurrent tasks such as Internet connectivity, packet capture, wireless reconnaissance, traffic analysis, and administrative operations.
+Professionals working in cybersecurity, network engineering, wireless research, and penetration testing frequently rely on multiple wireless adapters to perform concurrent tasks such as Internet connectivity, packet capture, traffic analysis, and administrative operations.
 
 Although Linux fully supports these capabilities, there is currently no standardized operational framework that defines how multiple wireless adapters should be coordinated within a single, consistent workflow.
 
@@ -107,7 +107,6 @@ Representative use cases include:
 - Network troubleshooting.
 - Wireless research and experimentation.
 - Packet capture and traffic analysis.
-- RF reconnaissance.
 - Security training laboratories.
 - Educational environments.
 - Cybersecurity competitions (CTFs).
@@ -140,26 +139,13 @@ This portability enables organizations, researchers, educators, and security pro
 
 ---
 
-# 7. Project Vision
+# 7. Project Scope
 
-The long-term vision of NMAWW is to establish a recognized operational model for native multi-adapter wireless environments across the Linux ecosystem.
+NMAWW provides a standardized orchestration layer that enables professionals to organize and coordinate concurrent wireless operations while preserving the flexibility and openness of Linux.
 
-Rather than introducing a new networking framework, NMAWW aims to provide a standardized orchestration layer that enables professionals to organize, coordinate, and automate concurrent wireless operations while preserving the flexibility and openness of Linux.
+The framework remains lightweight, modular, and fully aligned with the Unix philosophy of building simple components that work together effectively.
 
-As the project evolves, future development will prioritize:
-
-- Greater hardware compatibility.
-- Improved operational intelligence.
-- Automated workflow validation.
-- Expanded testing across Linux distributions.
-- Community-driven enhancements.
-- Comprehensive documentation.
-- Stable releases.
-- Packaging for major Linux distributions.
-
-NMAWW is intended to remain lightweight, modular, and fully aligned with the Unix philosophy of building simple components that work together effectively.
-
-The project aspires to become a reference implementation for structured multi-adapter wireless operations, encouraging collaboration from the open-source community while remaining entirely based on native Linux technologies.
+Its scope is focused on structured multi-adapter wireless operations using native Linux networking technologies.
 
 ---
 

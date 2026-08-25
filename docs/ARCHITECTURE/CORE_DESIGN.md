@@ -33,8 +33,7 @@ This document describes the internal organization, responsibilities, and design 
 5. Service Responsibilities
 6. Execution Lifecycle
 7. Dependency Model
-8. Future Evolution
-9. References
+8. References
 
 ---
 
@@ -219,7 +218,7 @@ The primary responsibilities of each service are summarized below:
 | Common | Shared framework functionality. |
 | Command Loader | Dynamic discovery and loading of command modules. |
 
-This modular approach simplifies future development by allowing individual services to evolve independently while maintaining a stable public interface.
+This modular approach improves maintainability by allowing individual services to remain independently maintainable while preserving a stable public interface.
 
 ---
 
@@ -316,27 +315,7 @@ This structure prevents circular dependencies and simplifies future maintenance 
 
 ---
 
-# 8. Future Evolution
-
-The Core has been intentionally designed to support future expansion without requiring significant architectural modifications.
-
-Future versions of the framework may introduce additional Core services while preserving the current initialization model and service interfaces.
-
-Planned enhancements include:
-
-- Advanced hardware capability scoring.
-- Intelligent adapter selection.
-- Health monitoring services.
-- Recovery services.
-- More advanced workflow orchestration.
-- Expanded transaction safety mechanisms.
-- Persistent operational state management.
-
-The modular architecture enables these capabilities to be incorporated incrementally while maintaining backward compatibility with existing command modules.
-
----
-
-# 9. References
+# 8. References
 
 The Core architecture has been developed using well-established software engineering practices and existing Linux networking technologies.
 
@@ -351,4 +330,4 @@ Its design is based upon principles including:
 
 The Core operates entirely on top of native Linux networking components and does not introduce proprietary abstractions or kernel modifications.
 
-Its implementation remains fully compatible with modern Linux distributions while providing a stable foundation for future framework capabilities.
+Its implementation remains fully compatible with modern Linux distributions and the native networking capabilities used by NMAWW.

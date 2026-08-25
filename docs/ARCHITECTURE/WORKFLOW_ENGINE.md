@@ -66,18 +66,6 @@ Cleanup
 - Minimal command logic.
 - Shared Core services.
 - Predictable execution flow.
-- Easy future expansion.
+- Clear operational structure.
 
 ---
-
-# Future Workflows
-
-Examples of workflows include:
-
-- Monitor Mode
-- Managed Mode
-- Restore Networking
-- Wireless Scanning
-- Handshake Capture
-- Deauthentication
-- Passive Reconnaissance

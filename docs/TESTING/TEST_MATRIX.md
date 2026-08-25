@@ -50,7 +50,6 @@ All official validation reports shall reference one or more Test IDs defined in 
 | T010 | Network | Nmap During Monitor Mode | Nmap executes without affecting monitor interface | NOT STARTED |
 | T011 | Packet Capture | Wireshark Capture | Packets captured successfully | NOT STARTED |
 | T012 | Packet Capture | tcpdump Capture | Packets captured successfully | NOT STARTED |
-| T013 | Wireless | Passive Reconnaissance | Networks discovered correctly | NOT STARTED |
 | T014 | Wireless | Bettercap Execution | Bettercap operates correctly | NOT STARTED |
 | T015 | Wireless | Aircrack-ng Integration | Compatible operation verified | NOT STARTED |
 | T016 | Stability | Long Duration Execution | Stable operation maintained | NOT STARTED |

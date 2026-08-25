@@ -56,7 +56,6 @@
 - [Repository Structure](#repository-structure)
 - [Dynamic Command System](#dynamic-command-system)
 - [Development](#development)
-- [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [License](#license)
 - [Author](#author)
@@ -104,9 +103,7 @@ NMAWW aims to establish a standardized operational framework for professional mu
 
 Rather than introducing new wireless technologies, the project builds a consistent orchestration layer on top of the native Linux networking stack, enabling complex wireless workflows to become modular, reproducible and easier to maintain.
 
-Its long-term vision is to become a reference architecture for multi-adapter wireless operations, encouraging community collaboration, extensibility and adoption across cybersecurity, networking, education and research environments.
-
-By remaining lightweight, transparent and entirely Bash-based, NMAWW embraces the Unix philosophy while providing a foundation that can evolve alongside the Linux ecosystem.
+By remaining lightweight, transparent and entirely Bash-based, NMAWW embraces the Unix philosophy while remaining focused on native multi-adapter wireless operations.
 
 # Key Features
 
@@ -338,7 +335,6 @@ Native-Multi-Adapter-Wireless-Workflow/
 ├── install.sh
 ├── VERSION
 ├── CHANGELOG.md
-├── ROADMAP.md
 ├── LICENSE
 └── README.md
 
@@ -380,21 +376,6 @@ NMAWW follows a modular development philosophy that prioritizes simplicity, main
 - Easy extensibility
 - Predictable behavior
 - Professional code quality
-
-# Roadmap
-
-The current development roadmap focuses on strengthening the framework architecture before expanding its capabilities.
-
-| Version | Objective | Status |
-|----------|-----------|:------:|
-| v1.0 | Framework architecture and repository organization | ✅ |
-| v1.1 | Additional wireless command modules | 🚧 |
-| v1.2 | Automated testing framework | 📋 |
-| v1.3 | Configuration management | 📋 |
-| v1.4 | Plugin architecture | 📋 |
-| v2.0 | Integration into the Kali Recovery Toolkit (KRT) ecosystem | 🔮 |
-
-Future development will continue to prioritize modularity, maintainability and compatibility with native Linux networking technologies.
 
 # Contributing
 
