@@ -21,7 +21,7 @@ run_workflow() {
     fi
 
     if ! "${preflight}"; then
-        workflow_fail "${workflow_name}" "Preflight failed."
+        log_error "${workflow_name}: Preflight failed."
         return "${EXIT_FAILURE}"
     fi
 
