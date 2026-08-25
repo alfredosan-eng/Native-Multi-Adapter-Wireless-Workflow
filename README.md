@@ -236,7 +236,6 @@ After installing NMAWW, the framework can be executed from any terminal location
 | Help | `wireless help` | Display available commands and usage information. |
 | Status | `wireless status` | Show the current wireless environment, interface modes, connectivity and adapter roles. |
 | Monitor | `sudo wireless monitor [interface]` | Enable Monitor Mode on the specified wireless interface. |
-| Normal | `sudo wireless normal` | Return the active Monitor Mode interface to its previous normal Managed Mode state. |
 | Restore | `sudo wireless restore` | Restore the previous wireless session and networking environment. |
 
 ## Examples
@@ -256,10 +255,6 @@ Show the current wireless environment:
 Enable Monitor Mode on `wlan0`:
 
     sudo wireless monitor wlan0
-
-Return the Monitor Mode interface to its previous normal state:
-
-    sudo wireless normal
 
 Restore the previous wireless session:
 
@@ -310,7 +305,6 @@ Native-Multi-Adapter-Wireless-Workflow/
 │   └── commands/
 │       ├── help.sh
 │       ├── monitor.sh
-│       ├── normal.sh
 │       ├── restore.sh
 │       ├── status.sh
 │       └── version.sh

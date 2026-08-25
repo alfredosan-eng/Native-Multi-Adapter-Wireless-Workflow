@@ -99,7 +99,7 @@ NMAWW is organized into multiple logical layers, each responsible for a specific
 ```
 +------------------------------------------------------+
 |                  User Commands                       |
-|  (status, monitor, restore, normal, etc.)     |
+|  (status, monitor, restore, etc.)                    |
 +---------------------------+--------------------------+
                             |
                             v
@@ -251,7 +251,6 @@ Current command modules include:
 | **status** | Display wireless interface status. |
 | **monitor** | Enable monitor mode operations. |
 | **restore** | Restore the previous wireless session. |
-| **normal** | Return the wireless interface to its previous normal state. |
 
 Every command follows the same execution model:
 

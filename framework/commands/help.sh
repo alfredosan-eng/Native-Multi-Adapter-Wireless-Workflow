@@ -14,7 +14,6 @@ Available Commands
 
     status                Show wireless interface status
     monitor [interface]   Enable Monitor Mode
-    normal                Return to the previous normal state
     restore               Restore the previous wireless session
     version               Show framework version
     help                  Show this help
@@ -44,15 +43,10 @@ Command Reference
 
             sudo wireless monitor wlan0
 
-    sudo wireless normal
-
-        Return the active Monitor Mode interface to its
-        previous normal Managed Mode state.
-
     sudo wireless restore
 
-        Restore the previous wireless session and networking
-        environment.
+        Restore the wireless environment to the previous
+        session state.
 
 
 END
