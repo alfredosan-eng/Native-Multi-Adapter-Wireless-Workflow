@@ -16,9 +16,6 @@ Available Commands
     monitor [interface]   Enable Monitor Mode
     restore               Restore the previous wireless session
     normal                Return to the previous normal state
-    scan                  Scan nearby networks [UNDER DEVELOPMENT]
-    capture               Capture wireless traffic [UNDER DEVELOPMENT]
-    deauth                Deauthentication module [UNDER DEVELOPMENT]
     version               Show framework version
     help                  Show this help
 

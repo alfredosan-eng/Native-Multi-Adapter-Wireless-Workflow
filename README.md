@@ -289,13 +289,10 @@ Native-Multi-Adapter-Wireless-Workflow/
 │
 ├── framework/
 │   └── commands/
-│       ├── capture.sh
-│       ├── deauth.sh
 │       ├── help.sh
 │       ├── monitor.sh
+│       ├── normal.sh
 │       ├── restore.sh
-│       ├── scan.sh
-│       ├── station.sh
 │       ├── status.sh
 │       └── version.sh
 │

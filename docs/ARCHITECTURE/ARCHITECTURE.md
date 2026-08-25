@@ -99,7 +99,7 @@ NMAWW is organized into multiple logical layers, each responsible for a specific
 ```
 +------------------------------------------------------+
 |                  User Commands                       |
-|  (status, monitor, scan, capture, restore, etc.)     |
+|  (status, monitor, restore, normal, etc.)     |
 +---------------------------+--------------------------+
                             |
                             v
@@ -250,11 +250,8 @@ Current command modules include:
 | **version** | Display framework version details. |
 | **status** | Display wireless interface status. |
 | **monitor** | Enable monitor mode operations. |
-| **station** | Restore managed mode operation. |
-| **scan** | Execute wireless reconnaissance. |
-| **capture** | Capture wireless authentication traffic. |
-| **deauth** | Execute deauthentication operations. |
-| **restore** | Restore networking configuration. |
+| **restore** | Restore the previous wireless session. |
+| **normal** | Return the wireless interface to its previous normal state. |
 
 Every command follows the same execution model:
 
