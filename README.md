@@ -260,8 +260,8 @@ Show the current wireless environment:
 > drivers, USB adapter connection order, or operating system configuration,
 > your wireless interfaces may be named `wlan0`, `wlan1`, or differently.
 >
-> **NMAWW can automatically select an available monitor-capable wireless
-> interface when no interface is specified:**
+> **When no interface is specified, NMAWW automatically detects and selects
+> an available wireless interface that supports Monitor Mode:**
 >
 >     sudo wireless monitor
 >
