@@ -226,29 +226,48 @@ The installer automatically:
 
 # Quick Start
 
-After installing NMAWW, verify that the framework is available:
+After installing NMAWW, the framework can be executed from any terminal location.
 
-```bash
-wireless version
-```
+## Command Reference
+
+| Command | Execution | Description |
+|---|---|---|
+| Version | `wireless version` | Display the current framework version. |
+| Help | `wireless help` | Display available commands and usage information. |
+| Status | `wireless status` | Show the current wireless environment, interface modes, connectivity and adapter roles. |
+| Monitor | `sudo wireless monitor [interface]` | Enable Monitor Mode on the specified wireless interface. |
+| Normal | `sudo wireless normal` | Return the active Monitor Mode interface to its previous normal Managed Mode state. |
+| Restore | `sudo wireless restore` | Restore the previous wireless session and networking environment. |
+
+## Examples
+
+Display the current framework version:
+
+    wireless version
 
 Display all available commands:
 
-```bash
-wireless help
-```
+    wireless help
 
-Check the current framework status:
+Show the current wireless environment:
 
-```bash
-wireless status
-```
+    wireless status
 
-Run the framework directly from the repository during development:
+Enable Monitor Mode on `wlan0`:
 
-```bash
-./bin/wireless help
-```
+    sudo wireless monitor wlan0
+
+Return the Monitor Mode interface to its previous normal state:
+
+    sudo wireless normal
+
+Restore the previous wireless session:
+
+    sudo wireless restore
+
+During development, the framework can also be executed directly from the repository:
+
+    ./bin/wireless help
 
 NMAWW automatically discovers available command modules, allowing the framework to grow without modifying the launcher.
 

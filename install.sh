@@ -11,6 +11,7 @@
 # Installs:
 #
 #   /usr/local/bin/wireless
+#   /usr/bin/wireless
 #   /usr/local/share/nmaww/
 #
 # ==============================================================================
@@ -33,6 +34,9 @@ FRAMEWORK_DIR="${SHARE_DIR}/framework"
 CORE_DIR="${SHARE_DIR}/core"
 
 LAUNCHER="wireless"
+
+SUDO_BIN_DIR="/usr/bin"
+SUDO_LAUNCHER="${SUDO_BIN_DIR}/${LAUNCHER}"
 
 ################################################################################
 # COLORS
@@ -272,6 +276,8 @@ info "Installing launcher..."
 
 install -m755 bin/wireless "${BIN_DIR}/${LAUNCHER}"
 
+ln -sfn "${BIN_DIR}/${LAUNCHER}" "${SUDO_LAUNCHER}"
+
 success "Launcher installed."
 
 }
@@ -335,6 +341,11 @@ chmod -R 755 "${FRAMEWORK_DIR}"
 
 chmod 755 "${BIN_DIR}/${LAUNCHER}"
 
+[[ -L "${SUDO_LAUNCHER}" ]] || {
+    error "System launcher link was not created."
+    exit 1
+}
+
 success "Permissions applied."
 
 }
@@ -348,6 +359,11 @@ info "Verifying installation..."
 
 [[ -x "${BIN_DIR}/${LAUNCHER}" ]] || {
     error "Launcher installation failed."
+    exit 1
+}
+
+[[ -x "${SUDO_LAUNCHER}" ]] || {
+    error "System launcher verification failed."
     exit 1
 }
 
@@ -380,6 +396,7 @@ echo "Project : ${PROJECT_NAME}"
 echo "Version : ${VERSION}"
 echo
 echo "Launcher : ${BIN_DIR}/${LAUNCHER}"
+echo "System Link : ${SUDO_LAUNCHER}"
 echo "Core     : ${CORE_DIR}"
 echo "Framework: ${FRAMEWORK_DIR}"
 echo
@@ -464,6 +481,11 @@ info "Removing previous installation..."
 rm -rf "${SHARE_DIR}" 2>/dev/null || true
 
 rm -f "${BIN_DIR}/${LAUNCHER}" 2>/dev/null || true
+
+if [[ -L "${SUDO_LAUNCHER}" ]] &&    [[ "$(readlink -f "${SUDO_LAUNCHER}")" == "${BIN_DIR}/${LAUNCHER}" ]]
+then
+    rm -f "${SUDO_LAUNCHER}"
+fi
 
 success "Previous installation removed."
 
