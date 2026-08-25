@@ -252,9 +252,26 @@ Show the current wireless environment:
 
     wireless status
 
-Enable Monitor Mode on `wlan0`:
+## Monitor Mode Interface Selection
 
-    sudo wireless monitor wlan0
+> **IMPORTANT: The interface name `wlan0` used below is only an example.**
+>
+> Interface names can vary between systems. Depending on the hardware,
+> drivers, USB adapter connection order, or operating system configuration,
+> your wireless interfaces may be named `wlan0`, `wlan1`, or differently.
+>
+> **NMAWW can automatically select an available monitor-capable wireless
+> interface when no interface is specified:**
+>
+>     sudo wireless monitor
+>
+> You can also explicitly select an interface:
+>
+>     sudo wireless monitor wlan0
+>
+> In this example, replace `wlan0` with the interface name shown by:
+>
+>     wireless status
 
 Restore the previous wireless session:
 
