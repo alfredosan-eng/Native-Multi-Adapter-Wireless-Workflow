@@ -221,6 +221,22 @@ The installer automatically:
 - Sets executable permissions
 - Verifies the installation
 
+## Uninstall
+
+If NMAWW is no longer required, it can be removed using the included uninstaller:
+
+```bash
+sudo ./uninstall.sh
+```
+
+The uninstaller removes the system-wide NMAWW installation, including:
+
+- The `wireless` launcher.
+- The installed framework files.
+- The system launcher link when it points to the NMAWW installation.
+
+The uninstaller also verifies that the installed launcher and framework directory were successfully removed.
+
 # Quick Start
 
 After installing NMAWW, the framework can be executed from any terminal location.
@@ -413,11 +429,11 @@ See the [LICENSE](LICENSE) file for complete details.
 
 # Author
 
-Developed by the NMAWW Project.
+**Alfredo San** — Creator and Lead Developer of NMAWW.
 
-NMAWW is an open-source initiative focused on improving native multi-wireless adapter workflows for Linux through a modular, lightweight and extensible architecture.
+NMAWW is an open-source project focused on improving native multi-wireless adapter workflows for Linux through a modular, lightweight and transparent architecture.
 
-The project welcomes community participation, technical discussions and collaborative development.
+Community participation, technical discussion and collaborative development are welcome.
 
 ---
 
